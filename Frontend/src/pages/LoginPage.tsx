@@ -1,19 +1,14 @@
-"use client";
-
 import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { Link, useNavigate } from "react-router-dom";
 import { Loader2, Eye, EyeOff } from "lucide-react";
 import { useAuthStore } from "@/store/use-auth-store";
 
-export default function RegisterPage() {
-  const router = useRouter();
-  const register = useAuthStore((s) => s.register);
+export default function LoginPage() {
+  const navigate = useNavigate();
+  const login = useAuthStore((s) => s.login);
   const loading = useAuthStore((s) => s.loading);
 
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [school, setSchool] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -22,16 +17,17 @@ export default function RegisterPage() {
     e.preventDefault();
     setError(null);
     try {
-      await register(name, email, password, school || undefined);
-      router.push("/");
+      await login(email, password);
+      navigate("/");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Registration failed");
+      setError(err instanceof Error ? err.message : "Login failed");
     }
   };
 
   return (
     <div className="min-h-[100dvh] bg-[radial-gradient(ellipse_at_top,_#fff7ed,_#f1f0ec_50%,_#e9e8e3)] flex flex-col p-4 sm:p-8">
       <div className="w-full max-w-md m-auto">
+        {/* Logo */}
         <div className="mb-8 flex items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-400 via-orange-500 to-amber-700 text-lg font-black text-white shadow-lg shadow-orange-200">
             Q
@@ -43,8 +39,8 @@ export default function RegisterPage() {
         </div>
 
         <div className="rounded-[28px] border border-white/80 bg-white/90 p-8 shadow-[0_20px_60px_rgba(15,23,42,0.1)] backdrop-blur">
-          <h1 className="text-2xl font-bold text-slate-900">Create your account</h1>
-          <p className="mt-1 text-sm text-slate-500">Start building AI-powered assessments in minutes</p>
+          <h1 className="text-2xl font-bold text-slate-900">Welcome back</h1>
+          <p className="mt-1 text-sm text-slate-500">Sign in to your teacher workspace</p>
 
           {error && (
             <div className="mt-5 rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700 border border-red-100">
@@ -53,30 +49,6 @@ export default function RegisterPage() {
           )}
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <label className="block space-y-2">
-                <span className="text-sm font-medium text-slate-700">Full name</span>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  placeholder="Ms. Sharma"
-                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-slate-900 focus:bg-white"
-                />
-              </label>
-              <label className="block space-y-2">
-                <span className="text-sm font-medium text-slate-700">School <span className="text-slate-400">(optional)</span></span>
-                <input
-                  type="text"
-                  value={school}
-                  onChange={(e) => setSchool(e.target.value)}
-                  placeholder="DPS Bokaro"
-                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-slate-900 focus:bg-white"
-                />
-              </label>
-            </div>
-
             <label className="block space-y-2">
               <span className="text-sm font-medium text-slate-700">Email</span>
               <input
@@ -91,16 +63,15 @@ export default function RegisterPage() {
             </label>
 
             <label className="block space-y-2">
-              <span className="text-sm font-medium text-slate-700">Password <span className="text-slate-400">(min 8 chars)</span></span>
+              <span className="text-sm font-medium text-slate-700">Password</span>
               <div className="relative">
                 <input
                   type={showPass ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  minLength={8}
                   placeholder="••••••••"
-                  autoComplete="new-password"
+                  autoComplete="current-password"
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 pr-12 text-sm outline-none transition focus:border-slate-900 focus:bg-white"
                 />
                 <button
@@ -119,17 +90,21 @@ export default function RegisterPage() {
               className="mt-2 w-full inline-flex items-center justify-center gap-2 rounded-full bg-slate-950 py-3 text-sm font-semibold text-white shadow-[0_0_0_2px_rgba(251,146,60,0.5)] transition hover:-translate-y-0.5 disabled:opacity-60 disabled:hover:translate-y-0"
             >
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-              {loading ? "Creating account…" : "Create account"}
+              {loading ? "Signing in…" : "Sign in"}
             </button>
           </form>
 
           <p className="mt-6 text-center text-sm text-slate-500">
-            Already have an account?{" "}
-            <Link href="/login" className="font-semibold text-slate-900 underline underline-offset-2">
-              Sign in
+            No account?{" "}
+            <Link to="/register" className="font-semibold text-slate-900 underline underline-offset-2">
+              Create one for free
             </Link>
           </p>
         </div>
+
+        <p className="mt-6 text-center text-xs text-slate-400">
+          Made for teachers. Powered by AI.
+        </p>
       </div>
     </div>
   );

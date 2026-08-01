@@ -1,10 +1,10 @@
-"use client";
+
 
 import { create } from "zustand";
 import { assignmentApi as _a } from "@/lib/api";
 import { getToken, setToken, removeToken } from "@/lib/token";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 export interface AuthUser {
   id: string;

@@ -1,6 +1,6 @@
-"use client";
 
-import Link from "next/link";
+
+import { Link } from "react-router-dom";
 import { Search, SlidersHorizontal, Trash2, Loader2, AlertCircle } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useAppStore } from "@/store/use-app-store";
@@ -66,7 +66,7 @@ export function AssignmentsList() {
         <div className="mb-6 flex h-36 w-36 items-center justify-center rounded-full bg-white text-6xl shadow-inner">📄</div>
         <h2 className="text-3xl font-bold">No assignments yet</h2>
         <p className="mt-3 max-w-xl text-slate-500">Create your first assignment to generate AI-powered question papers.</p>
-        <Link href="/create" className="mt-8 rounded-full bg-slate-950 px-6 py-3 font-semibold text-white shadow-[0_0_0_2px_rgba(251,146,60,0.55)]">
+        <Link to="/create" className="mt-8 rounded-full bg-slate-950 px-6 py-3 font-semibold text-white shadow-[0_0_0_2px_rgba(251,146,60,0.55)]">
           Create Your First Assignment
         </Link>
       </Card>
@@ -133,7 +133,7 @@ export function AssignmentsList() {
               </div>
               <div className="flex flex-wrap gap-3">
                 <Link
-                  href={assignment.status === "ready" ? `/paper/${assignment.id}` : `/generating/${assignment.id}`}
+                  to={assignment.status === "ready" ? `/paper/${assignment.id}` : `/generating/${assignment.id}`}
                   className="rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white"
                 >
                   {assignment.status === "ready" ? "View Paper" : assignment.status === "failed" ? "View Status" : "View Progress"}

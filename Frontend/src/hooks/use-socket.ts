@@ -1,14 +1,14 @@
-"use client";
+
 
 import { useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 import { useAppStore } from "@/store/use-app-store";
 
-const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "http://localhost:4000";
+const WS_URL = import.meta.env.VITE_WS_URL || "http://localhost:4000";
 
 export function useSocket(assignmentId: string, redirectOnReady = false, onUpdated?: () => void) {
-  const router = useRouter();
+  const navigate = useNavigate();
   const socketRef = useRef<Socket | null>(null);
   const setWsStatus = useAppStore((state) => state.setWsStatus);
   const setGenerationStatus = useAppStore((state) => state.setGenerationStatus);
@@ -39,7 +39,7 @@ export function useSocket(assignmentId: string, redirectOnReady = false, onUpdat
     socket.on("paper:ready", () => {
       setGenerationStatus("ready");
       if (redirectOnReady) {
-        setTimeout(() => router.push(`/paper/${assignmentId}`), 600);
+        setTimeout(() => navigate(`/paper/${assignmentId}`), 600);
       }
     });
 

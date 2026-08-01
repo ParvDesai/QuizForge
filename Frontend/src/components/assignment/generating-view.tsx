@@ -1,6 +1,6 @@
-"use client";
 
-import Link from "next/link";
+
+import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { LoaderCircle, Wifi, WifiOff, AlertCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -88,16 +88,16 @@ export function GeneratingView({ assignmentId }: { assignmentId: string }) {
       )}
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <Link href="/assignments" className="rounded-full border border-slate-200 px-5 py-3 font-semibold text-slate-700">
+        <Link to="/assignments" className="rounded-full border border-slate-200 px-5 py-3 font-semibold text-slate-700">
           Back to assignments
         </Link>
         {isFailed && (
-          <Link href="/create" className="rounded-full bg-rose-600 px-5 py-3 font-semibold text-white">
+          <Link to="/create" className="rounded-full bg-rose-600 px-5 py-3 font-semibold text-white">
             Try again
           </Link>
         )}
         {!isFailed && (
-          <Link href={`/paper/${assignmentId}`} className="rounded-full bg-slate-950 px-5 py-3 font-semibold text-white">
+          <Link to={`/paper/${assignmentId}`} className="rounded-full bg-slate-950 px-5 py-3 font-semibold text-white">
             Skip to preview
           </Link>
         )}

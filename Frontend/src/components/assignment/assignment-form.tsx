@@ -1,8 +1,8 @@
-"use client";
+
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mic, MicOff, Plus, Sparkles, Trash2, UploadCloud, Check, X, Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { useRef, useState } from "react";
 import { z } from "zod";
@@ -40,7 +40,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 export function AssignmentForm() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const submitAssignment = useAppStore((state) => state.submitAssignment);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -82,7 +82,7 @@ export function AssignmentForm() {
     setSubmitError(null);
     try {
       const assignmentId = await submitAssignment(values as AssignmentFormValues, selectedFile ?? undefined);
-      router.push(`/generating/${assignmentId}`);
+      navigate(`/generating/${assignmentId}`);
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : "Failed to create assignment");
       setIsSubmitting(false);

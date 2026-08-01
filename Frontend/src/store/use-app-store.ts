@@ -1,4 +1,4 @@
-"use client";
+
 
 import { create } from "zustand";
 import { assignmentApi, paperApi, AssignmentListItem, PaperResponse } from "@/lib/api";

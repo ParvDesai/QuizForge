@@ -1,5 +1,3 @@
-"use client";
-
 import { Download, Printer, RefreshCcw, Sparkles, Loader2, AlertCircle, Pencil, X, FileText, GraduationCap } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
